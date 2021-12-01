@@ -1,33 +1,16 @@
 file = File.open("input.txt")
-data = file.readlines.map(&:chomp)
+data = file.readlines.map(&:to_i)
 
 def first_star(array)
-    $i = 0
-    $counter = 0
+    result = array.each_cons(2).select { |x, y| y > x }
 
-    while $i < array.length  do
-        current = Integer(array[$i])
-        last = Integer(array[$i-1])
-
-        $counter += 1 if last > 0 and current > last
-
-        $i +=1
-    end
-
-    return $counter
+    result.count
 end
 
 def second_star(array)
-    $i = 0
-    $new_arr = []
-    
-    while $i < array.length  do
-        $new_arr.push(Integer(array[$i]) + Integer(array[$i+1]) + Integer(array[$i+2])) unless array[$i+2].nil?
+    sums = array.each_cons(3).map(&:sum)
 
-        $i +=1
-    end
-
-    first_star($new_arr)
+    first_star(sums)
 end
 
 puts("Result for star nr1: #{first_star(data)}")
